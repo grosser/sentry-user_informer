@@ -33,6 +33,7 @@ end
 
 if defined?(::Rails::Railtie)
   raise "Load sentry-rails before sentry-user_informer" unless defined?(Sentry::Rails)
+
   # override capture_exception to store the exception in globally since it does not have access to any other state
   Sentry::Rails::CaptureExceptions.prepend(
     Module.new do

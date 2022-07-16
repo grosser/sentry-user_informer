@@ -37,6 +37,13 @@ Details
 - adds a new middleware to render placeholder
 - modifies `Sentry::Rails::Middleware` to store the exceptions it sends to sentry
 
+middleware basically ends up like this:
+```
+use Sentry::UserInformer::ExceptionRenderer # replace placeholder
+use ActionDispatch::ShowExceptions          # render 500.html
+use Sentry::Rails::CaptureExceptions        # store exception
+```
+
 Development
 ===========
 - run tests: `bundle && rake default integration` (github actions cannot run integration tests)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative "../test_helper"
 
-SingleCov.covered! uncovered: 12
+SingleCov.covered! uncovered: 6
 
 describe Sentry::UserInformer do
   it "has a VERSION" do
@@ -9,9 +9,10 @@ describe Sentry::UserInformer do
   end
 
   describe Sentry::UserInformer::ExceptionRenderer do
+    let(:event_ids) { ["123"] }
     let(:inner) do
       lambda do |_env|
-        Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID] = "123"
+        Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID] = event_ids.shift
         [200, {}, ["Hi<!-- SENTRY-USER-INFORMER -->there"]]
       end
     end
@@ -22,6 +23,15 @@ describe Sentry::UserInformer do
         200,
         { "Content-Length" => "102" },
         ["Hi<br/><br/>Error number: <a href='https://sentry.io/organizations/foo/issues/?query=123'>123</a>there"]
+      ]
+    end
+
+    it "does not render when exception was not caught" do
+      event_ids.pop
+      app.call({}).must_equal [
+        200,
+        {},
+        ["Hi<!-- SENTRY-USER-INFORMER -->there"]
       ]
     end
   end
