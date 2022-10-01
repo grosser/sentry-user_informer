@@ -12,6 +12,6 @@ Gem::Specification.new name, Sentry::UserInformer::VERSION do |s|
   s.license = "MIT"
   s.required_ruby_version = ">= 2.7.0"
   s.add_runtime_dependency "rack"
-  s.add_runtime_dependency "railties", ">= 7.0.0", "< 7.1.0"
+  s.add_runtime_dependency "railties", ">= 6.1.0", "< 7.1.0"
   s.add_runtime_dependency "sentry-rails", "~> 5.3"
 end

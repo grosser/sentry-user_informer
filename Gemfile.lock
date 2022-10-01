@@ -3,7 +3,7 @@ PATH
   specs:
     sentry-user_informer (0.1.0)
       rack
-      railties (>= 7.0.0, < 7.1.0)
+      railties (>= 6.1.0, < 7.1.0)
       sentry-rails (~> 5.3)
 
 GEM
