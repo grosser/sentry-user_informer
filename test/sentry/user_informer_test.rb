@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative "../test_helper"
 
-SingleCov.covered! uncovered: 6
+SingleCov.covered! uncovered: 3
 
 describe Sentry::UserInformer do
   it "has a VERSION" do
@@ -11,8 +11,8 @@ describe Sentry::UserInformer do
   describe Sentry::UserInformer::ExceptionRenderer do
     let(:event_ids) { ["123"] }
     let(:inner) do
-      lambda do |_env|
-        Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID] = event_ids.shift
+      lambda do |env|
+        env["sentry.error_event_id"] = event_ids.shift
         [200, {}, ["Hi<!-- SENTRY-USER-INFORMER -->there"]]
       end
     end

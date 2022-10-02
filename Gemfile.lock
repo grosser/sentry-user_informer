@@ -4,7 +4,7 @@ PATH
     sentry-user_informer (0.1.1)
       rack
       railties (>= 6.1.0, < 7.1.0)
-      sentry-rails (~> 5.3)
+      sentry-rails (~> 5.4)
 
 GEM
   remote: https://rubygems.org/

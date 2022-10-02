@@ -2,7 +2,6 @@
 
 module Sentry
   module UserInformer
-    SENTRY_EVENT_ID = "sentry_event_id"
     class << self
       attr_accessor :placeholder, :template
     end
@@ -18,9 +17,8 @@ module Sentry
       end
 
       def call(env)
-        Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID] = nil # reset to not keep old exception around
         status, headers, body = @app.call(env)
-        if (event_id = Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID])
+        if (event_id = env["sentry.error_event_id"]) # see https://github.com/getsentry/sentry-ruby/pull/1849
           replacement = format(Sentry::UserInformer.template, event_id: event_id)
           body = body.map { |chunk| chunk.gsub(Sentry::UserInformer.placeholder, replacement) }
           headers["Content-Length"] = body.sum(&:bytesize).to_s # not sure if this is needed, but it does not hurt
@@ -33,17 +31,6 @@ end
 
 if defined?(::Rails::Railtie)
   raise "Load sentry-rails before sentry-user_informer" unless defined?(Sentry::Rails)
-
-  # override capture_exception to store the exception in globally since it does not have access to any other state
-  Sentry::Rails::CaptureExceptions.prepend(
-    Module.new do
-      def capture_exception(_exception)
-        event = super
-        Thread.current[Sentry::UserInformer::SENTRY_EVENT_ID] = event&.event_id
-        event
-      end
-    end
-  )
 
   module Sentry
     module UserInformer
