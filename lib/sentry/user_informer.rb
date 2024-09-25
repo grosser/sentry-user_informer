@@ -19,7 +19,7 @@ module Sentry
       def call(env)
         status, headers, body = @app.call(env)
         if (event_id = env["sentry.error_event_id"]) # see https://github.com/getsentry/sentry-ruby/pull/1849
-          replacement = format(Sentry::UserInformer.template, event_id: event_id)
+          replacement = format(Sentry::UserInformer.template, event_id:)
           body = body.map { |chunk| chunk.gsub(Sentry::UserInformer.placeholder, replacement) }
           headers["Content-Length"] = body.sum(&:bytesize).to_s # not sure if this is needed, but it does not hurt
         end
