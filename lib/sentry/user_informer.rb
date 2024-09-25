@@ -29,7 +29,7 @@ module Sentry
   end
 end
 
-if defined?(::Rails::Railtie)
+if defined?(Rails::Railtie)
   raise "Load sentry-rails before sentry-user_informer" unless defined?(Sentry::Rails)
 
   module Sentry
