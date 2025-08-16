@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sentry-user_informer (0.3.0)
+    sentry-user_informer (0.4.0)
       rack
       railties (>= 6.1.0, < 8.1.0)
       sentry-rails (~> 5.4)
