@@ -2,7 +2,7 @@ plugins: rubocop-rake
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2 # keep in sync with lowest version in .github/workflows/actions.yml
+  TargetRubyVersion: 3.4 # keep in sync with lowest version in .github/workflows/actions.yml
   Exclude:
   - example/**/*
   - vendor/**/*

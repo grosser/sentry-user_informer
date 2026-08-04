@@ -21,7 +21,7 @@ describe Sentry::UserInformer do
     it "renders" do
       app.call({}).must_equal [
         200,
-        { "Content-Length" => "102" },
+        { "content-length" => "102" },
         ["Hi<br/><br/>Error number: <a href='https://sentry.io/organizations/foo/issues/?query=123'>123</a>there"]
       ]
     end
